@@ -1,8 +1,8 @@
-import axios from 'axios';
+import axios from "axios";
 
 export const getQuestion = async () => {
   try {
-    const response = await axios.get('http://localhost:8080/api/v1/questions', {
+    const response = await axios.get("http://localhost:8080/api/v1/questions", {
       withCredentials: true,
     });
     return response.data.data;
@@ -14,11 +14,11 @@ export const getQuestion = async () => {
 export const answerQuestion = async (data) => {
   try {
     const response = await axios.post(
-      'http://localhost:8080/api/v1/questions/answer',
+      "http://localhost:8080/api/v1/questions/answer",
       data,
       {
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         withCredentials: true,
       }
@@ -32,11 +32,11 @@ export const answerQuestion = async (data) => {
 export const login = async (data) => {
   try {
     const response = await axios.post(
-      'http://localhost:8080/api/v1/players',
+      "http://localhost:8080/api/v1/players",
       data,
       {
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         withCredentials: true,
       }
