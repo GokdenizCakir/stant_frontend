@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.left-triangle {
+  width: 5vw;
+  height: calc(100%);
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate(calc(-100% + 1px), 0);
+  clip-path: polygon(0 50%, 100% 100%, 100% 0);
+  z-index: -1;
+}
+
+.left-triangle-border {
+  width: calc(5vw + 1px);
+  height: calc(100%);
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate(-100%, 0);
+  clip-path: polygon(0 50%, 100% 100%, 100% 0);
+  background-color: rgb(252, 251, 248);
+  z-index: -2;
+}
+
+.right-triangle {
+  width: 5vw;
+  height: calc(100%);
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translate(calc(100% - 1px), 0);
+  clip-path: polygon(100% 50%, 0 100%, 0 0);
+  z-index: -1;
+}
+
+.right-triangle-border {
+  width: calc(5vw + 1px);
+  height: calc(100%);
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translate(100%, 0);
+  clip-path: polygon(100% 50%, 0 100%, 0 0);
+  background-color: rgb(252, 251, 248);
+  z-index: -2;
+}
