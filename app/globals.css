@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+.answer:active .left-triangle,
+.answer:active .right-triangle {
+  background-color: #101e42;
+}
+
 .left-triangle {
   width: 5vw;
   height: calc(100%);
