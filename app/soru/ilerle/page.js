@@ -50,7 +50,7 @@ const page = () => {
                 />
                 <div className="right-triangle-border md:hidden" />
                 <span className="text-yellow-400 font-semibold">
-                  {rewards.length - index}.{" "}
+                  {index + 1}.{" "}
                 </span>
                 <span className="font-semibold">{reward} TL</span>
               </li>
