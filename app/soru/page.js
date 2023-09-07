@@ -83,44 +83,44 @@ export default function Home() {
         >
           <li
             onClick={() => handleAnswer("a")}
-            className="relative md:flex-1 answer bg-blue-950 active:bg-blue-950/60 py-1 px-2 text-md text-center text-slate-300 border-t border-b md:border border-slate-50 cursor-pointer"
+            className="relative md:flex-1 group bg-blue-950 active:bg-[#0F1C3F] py-1 px-2 text-md text-center text-slate-300 border-t border-b md:border border-slate-50 cursor-pointer"
           >
-            <div className="left-triangle bg-blue-950 md:hidden" />
+            <div className="left-triangle group-active:bg-[#0F1C3F] bg-blue-950 md:hidden" />
             <div className="left-triangle-border md:hidden" />
-            <div className="right-triangle bg-blue-950 md:hidden" />
+            <div className="right-triangle group-active:bg-[#0F1C3F] bg-blue-950 md:hidden" />
             <div className="right-triangle-border md:hidden" />
             <span className="text-yellow-400 font-semibold">A. </span>
             {question?.a}
           </li>
           <li
             onClick={() => handleAnswer("b")}
-            className="relative md:flex-1 answer bg-blue-950 active:bg-blue-950/60 py-1 px-2 text-md text-center text-slate-300 border-t border-b md:border border-slate-50 cursor-pointer"
+            className="relative md:flex-1 group bg-blue-950 active:bg-[#0F1C3F] py-1 px-2 text-md text-center text-slate-300 border-t border-b md:border border-slate-50 cursor-pointer"
           >
-            <div className="left-triangle bg-blue-950 md:hidden" />
+            <div className="left-triangle group-active:bg-[#0F1C3F] bg-blue-950 md:hidden" />
             <div className="left-triangle-border md:hidden" />
-            <div className="right-triangle bg-blue-950 md:hidden" />
+            <div className="right-triangle group-active:bg-[#0F1C3F] bg-blue-950 md:hidden" />
             <div className="right-triangle-border md:hidden" />
             <span className="text-yellow-400 font-semibold">B. </span>
             {question?.b}
           </li>
           <li
             onClick={() => handleAnswer("c")}
-            className="relative md:flex-1 answer bg-blue-950 active:bg-blue-950/60 py-1 px-2 text-md text-center text-slate-300 border-t border-b md:border border-slate-50 cursor-pointer"
+            className="relative md:flex-1 group bg-blue-950 active:bg-[#0F1C3F] py-1 px-2 text-md text-center text-slate-300 border-t border-b md:border border-slate-50 cursor-pointer"
           >
-            <div className="left-triangle bg-blue-950 md:hidden" />
+            <div className="left-triangle group-active:bg-[#0F1C3F] bg-blue-950 md:hidden" />
             <div className="left-triangle-border md:hidden" />
-            <div className="right-triangle bg-blue-950 md:hidden" />
+            <div className="right-triangle group-active:bg-[#0F1C3F] bg-blue-950 md:hidden" />
             <div className="right-triangle-border md:hidden" />
             <span className="text-yellow-400 font-semibold">C. </span>
             {question?.c}
           </li>
           <li
             onClick={() => handleAnswer("d")}
-            className="relative md:flex-1 answer bg-blue-950 active:bg-blue-950/60 py-1 px-2 text-md text-center text-slate-300 border-t border-b md:border border-slate-50 cursor-pointer"
+            className="relative md:flex-1 group bg-blue-950 active:bg-[#0F1C3F] py-1 px-2 text-md text-center text-slate-300 border-t border-b md:border border-slate-50 cursor-pointer"
           >
-            <div className="left-triangle bg-blue-950 md:hidden" />
+            <div className="left-triangle group-active:bg-[#0F1C3F] bg-blue-950 md:hidden" />
             <div className="left-triangle-border md:hidden" />
-            <div className="right-triangle bg-blue-950 md:hidden" />
+            <div className="right-triangle group-active:bg-[#0F1C3F] bg-blue-950 md:hidden" />
             <div className="right-triangle-border md:hidden" />
             <span className="text-yellow-400 font-semibold">D. </span>
             {question?.d}
