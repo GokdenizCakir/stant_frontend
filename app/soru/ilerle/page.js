@@ -42,7 +42,7 @@ const page = () => {
       <div className="flex flex-col w-5/6 md:w-3/4 select-none">
         <ul className="flex flex-col gap-4 w-full mx-auto mt-4 md:mt-3 text-slate-300">
           <li
-            onClick={() => router.push("/")}
+            onClick={() => router.push("/soru")}
             className="relative md:flex-1 group active:bg-[#65843c] bg-[#3F6212] py-1 px-2 text-md text-center text-slate-300 border-t border-b md:border border-slate-50 cursor-pointer"
           >
             <div className="left-triangle group-active:bg-[#65843c] bg-lime-800 md:hidden" />
