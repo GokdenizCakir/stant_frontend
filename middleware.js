@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { getCurrentQuestionIndex } from "./app/_utils/questions";
 
 export function middleware(request) {
   const jwt = request.cookies.get("jwt")?.value;
@@ -11,7 +12,8 @@ export function middleware(request) {
 
   if (request.nextUrl.pathname === "/") {
     if (isLoggedIn) {
-      redirectURL.pathname = "/soru";
+      const currentQuestionIndex = getCurrentQuestionIndex(jwt);
+      redirectURL.pathname = `/soru/${currentQuestionIndex + 1}`;
       return NextResponse.redirect(redirectURL);
     }
   } else {
@@ -19,11 +21,23 @@ export function middleware(request) {
       redirectURL.pathname = "/";
       return NextResponse.redirect(redirectURL);
     }
+
+    if (
+      request.nextUrl.pathname.startsWith("/soru/") &&
+      request.nextUrl.pathname !== "/soru/ilerle"
+    ) {
+      const questionOrder = Number(request.nextUrl.pathname.split("/")[2]);
+      const currentQuestionIndex = getCurrentQuestionIndex(jwt);
+      if (questionOrder !== currentQuestionIndex + 1) {
+        redirectURL.pathname = `/soru/${currentQuestionIndex + 1}`;
+        return NextResponse.redirect(redirectURL);
+      }
+    }
   }
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/", "/soru", "/soru/ilerle"],
+  matcher: ["/", "/soru/:path*", "/soru/ilerle"],
 };
