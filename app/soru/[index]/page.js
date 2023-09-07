@@ -1,14 +1,28 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { answerQuestion, getQuestion } from "../_utils/requests";
+import { answerQuestion, getQuestion } from "../../_utils/requests";
 import { useRouter } from "next/navigation";
 
-export default function Home() {
+export default function Home({ params }) {
   const router = useRouter();
   const [question, setQuestion] = useState(null);
   const [timeLeft, setTimeLeft] = useState(30);
   const [disabled, setDisabled] = useState(false);
+  const rewards = [
+    "500",
+    "1.000",
+    "2.000",
+    "3.000",
+    "5.000",
+    "7.500",
+    "15.000",
+    "30.000",
+    "60.000",
+    "125.000",
+    "250.000",
+    "Gofret",
+  ];
   useEffect(() => {
     getQuestion().then((data) => {
       setQuestion(data);
@@ -46,7 +60,7 @@ export default function Home() {
     <div className="flex flex-col justify-around items-center h-full">
       <div className="self-end space-y-2 select-none">
         <h1 className="px-8 py-1 bg-blue-950 text-slate-300 text-xl text-center border border-slate-50">
-          400.000 TL
+          {rewards[params.index - 1]} TL
         </h1>
         <h1 className="px-1 py-1 bg-blue-950 text-slate-300 text-xl border border-slate-50">
           <div className="flex gap-2 h-10 align-middle">
