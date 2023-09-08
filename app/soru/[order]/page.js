@@ -60,7 +60,7 @@ export default function Home({ params }) {
     <div className="flex flex-col justify-around items-center h-full">
       <div className="self-end space-y-2 select-none">
         <h1 className="px-8 py-1 bg-blue-950 text-slate-300 text-xl text-center border border-slate-50">
-          {rewards[params.index - 1]} TL
+          {rewards[params.order - 1]} TL
         </h1>
         <h1 className="px-1 py-1 bg-blue-950 text-slate-300 text-xl border border-slate-50">
           <div className="flex gap-2 h-10 align-middle">
