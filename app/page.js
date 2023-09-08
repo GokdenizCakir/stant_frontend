@@ -2,15 +2,23 @@
 import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { getLeaderboard } from "./_utils/requests";
 
 const page = () => {
   const router = useRouter();
+  const [leaderboardData, setLeaderboardData] = useState([]);
   const [isLeaderboardOpen, setIsLeaderboardOpen] = useState(false);
   const isFirstRender = useRef(true);
   const leaderboard = useRef();
   const leaderboardButton = useRef();
   const moneyRef = React.useRef();
   let timeoutId;
+
+  useEffect(() => {
+    getLeaderboard().then((data) => {
+      setLeaderboardData(data);
+    });
+  }, []);
 
   useEffect(() => {
     if (isFirstRender.current) {
@@ -92,11 +100,17 @@ const page = () => {
           Lider Tablosu
         </h1>
         <ul className="text-xl text-neutral-300 font-semibold select-none">
-          <li>1. Egehan</li>
-          <li>2. Egehan</li>
-          <li>3. Egehan</li>
-          <li>4. Egehan</li>
-          <li>5. Egehan</li>
+          {leaderboardData.length === 0 && <li>Yükleniyor...</li>}
+          {leaderboardData.length !== 0 &&
+            leaderboardData.map((data, index) => {
+              return (
+                <li key={index}>
+                  <span className="text-gray-400">{index + 1}.</span>{" "}
+                  {data.name} <span className="text-gray-400">-</span>{" "}
+                  <span className="text-yellow-400">{data.score}</span>
+                </li>
+              );
+            })}
         </ul>
       </div>
 

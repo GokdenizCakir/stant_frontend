@@ -11,6 +11,17 @@ export const getQuestion = async () => {
   }
 };
 
+export const getLeaderboard = async () => {
+  try {
+    const response = await axios.get("http://localhost:8080/api/v1/players", {
+      withCredentials: true,
+    });
+    return response.data.data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export const answerQuestion = async (data) => {
   try {
     const response = await axios.post(
