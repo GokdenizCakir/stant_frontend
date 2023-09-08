@@ -2,6 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
+.money {
+  position: absolute;
+  top: -20%;
+  left: 8%;
+  width: 83.333333%;
+  height: 8.5rem;
+  background: url(/images/dollar.jpg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  z-index: -10;
+}
+
+.money-move-up {
+  animation: money-up 5s forwards;
+}
+
 .left-triangle {
   width: 5vw;
   height: calc(100%);
@@ -46,4 +63,13 @@
   clip-path: polygon(100% 50%, 0 100%, 0 0);
   background-color: rgb(252, 251, 248);
   z-index: -2;
+}
+
+@keyframes money-up {
+  0% {
+    transform: none;
+  }
+  100% {
+    transform: translateY(-40%);
+  }
 }
