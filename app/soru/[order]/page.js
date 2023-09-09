@@ -60,6 +60,14 @@ export default function Home({ params }) {
 
   return (
     <div className="flex flex-col justify-around items-center h-full">
+      {!question && (
+        <div class="absolute top-0 left-0 flex flex-col justify-center items-center gap-4 w-screen h-screen bg-black/90 z-20">
+          <span class="loader"></span>
+          <p class="text-white text-xl font-semibold select-none animate-pulse">
+            Soru Yükleniyor...
+          </p>
+        </div>
+      )}
       <div className="self-end space-y-2 select-none">
         <h1 className="px-8 py-1 bg-blue-950 text-slate-300 text-xl text-center border border-slate-50">
           {rewards[params.order - 1]} TL
