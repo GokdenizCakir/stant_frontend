@@ -54,6 +54,8 @@
 }
 
 .right-triangle-border {
+  width: calc(5vw + 1px);
+  height: calc(100%);
   position: absolute;
   top: 0;
   right: 0;
@@ -74,7 +76,6 @@
 .loader {
   transform: translateZ(1px);
 }
-
 .loader:after {
   content: "$";
   display: inline-block;
