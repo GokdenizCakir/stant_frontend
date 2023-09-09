@@ -4,7 +4,7 @@ import { getCurrentQuestionIndex } from "@/app/_utils/questions";
 
 const page = () => {
   const jwt = cookies().get("jwt");
-  const currentQuestionIndex = getCurrentQuestionIndex(jwt.value);
+  const currentQuestionIndex = getCurrentQuestionIndex(jwt.value) - 1;
   const rewards = [
     "500",
     "1.000",

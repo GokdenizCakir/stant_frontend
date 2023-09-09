@@ -100,14 +100,14 @@ const page = () => {
           Lider Tablosu
         </h1>
         <ul className="text-xl text-neutral-300 font-semibold select-none">
-          {leaderboardData.length === 0 && <li>Yükleniyor...</li>}
-          {leaderboardData.length !== 0 &&
-            leaderboardData.map((data, index) => {
+          {leaderboardData?.length === 0 && <li>Yükleniyor...</li>}
+          {leaderboardData?.length !== 0 &&
+            leaderboardData?.map((data, index) => {
               return (
                 <li key={index}>
                   <span className="text-gray-400">{index + 1}.</span>{" "}
-                  {data.name} <span className="text-gray-400">-</span>{" "}
-                  <span className="text-yellow-400">{data.score}</span>
+                  {data?.name} <span className="text-gray-400">-</span>{" "}
+                  <span className="text-yellow-400">{data?.score}</span>
                 </li>
               );
             })}

@@ -5,7 +5,7 @@ export const getQuestion = async () => {
     const response = await axios.get("http://localhost:8080/api/v1/questions", {
       withCredentials: true,
     });
-    return response.data.data;
+    return response.data;
   } catch (err) {
     console.log(err);
   }

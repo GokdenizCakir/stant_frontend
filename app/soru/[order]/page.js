@@ -25,8 +25,10 @@ export default function Home({ params }) {
   ];
   useEffect(() => {
     getQuestion().then((data) => {
-      setQuestion(data);
-      setTimeLeft(30);
+      setQuestion(data.data);
+      if (data?.timeLeft) {
+        setTimeLeft(data.timeLeft);
+      }
       setDisabled(false);
     });
   }, []);
@@ -52,8 +54,8 @@ export default function Home({ params }) {
   const handleAnswer = async (e) => {
     answerQuestion({ answer: e }).then((data) => {
       console.log(data);
+      router.push("/soru/ilerle");
     });
-    router.push("/soru/ilerle");
   };
 
   return (
