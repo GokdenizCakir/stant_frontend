@@ -65,6 +65,14 @@
   z-index: -2;
 }
 
+.meme-text {
+  font-family: impact;
+  letter-spacing: 1px;
+  text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000,
+    -2px 2px 0 #000, 0px 2px 0 #000, 2px 0px 0 #000, 0px -2px 0 #000,
+    -2px 0px 0 #000, 2px 2px 5px #000;
+}
+
 @keyframes money-up {
   0% {
     transform: none;

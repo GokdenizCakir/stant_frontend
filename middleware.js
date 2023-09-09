@@ -1,5 +1,9 @@
 import { NextResponse } from "next/server";
-import { getCurrentQuestionIndex } from "./app/_utils/questions";
+import {
+  getCurrentQuestionIndex,
+  hasLost,
+  hasWon,
+} from "./app/_utils/questions";
 
 export function middleware(request) {
   const jwt = request.cookies.get("jwt")?.value;
@@ -20,6 +24,21 @@ export function middleware(request) {
   }
 
   if (
+    request.nextUrl.pathname.startsWith("/soru/") ||
+    request.nextUrl.pathname === "/soru/ilerle"
+  ) {
+    const playerHasWon = hasWon(jwt);
+    const playerHasLost = hasLost(jwt);
+    if (playerHasWon) {
+      redirectURL.pathname = "/kazandin";
+      return NextResponse.redirect(redirectURL);
+    } else if (playerHasLost) {
+      redirectURL.pathname = "/kaybettin";
+      return NextResponse.redirect(redirectURL);
+    }
+  }
+
+  if (
     request.nextUrl.pathname.startsWith("/soru/") &&
     request.nextUrl.pathname !== "/soru/ilerle"
   ) {
@@ -31,9 +50,35 @@ export function middleware(request) {
     }
   }
 
+  if (request.nextUrl.pathname === "/kazandin") {
+    const playerHasWon = hasWon(jwt);
+    if (!playerHasWon) {
+      const playerHasLost = hasLost(jwt);
+      if (playerHasLost) {
+        redirectURL.pathname = "/kaybettin";
+      } else {
+        redirectURL.pathname = `/soru/${getCurrentQuestionIndex(jwt) + 1}`;
+      }
+      return NextResponse.redirect(redirectURL);
+    }
+  }
+
+  if (request.nextUrl.pathname === "/kaybettin") {
+    const playerHasLost = hasLost(jwt);
+    if (!playerHasLost) {
+      const playerHasWon = hasLost(jwt);
+      if (playerHasWon) {
+        redirectURL.pathname = "/kazandin";
+      } else {
+        redirectURL.pathname = `/soru/${getCurrentQuestionIndex(jwt) + 1}`;
+      }
+      return NextResponse.redirect(redirectURL);
+    }
+  }
+
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/", "/soru/:path*", "/soru/ilerle"],
+  matcher: ["/", "/soru/:path*", "/kazandin", "/kaybettin"],
 };
