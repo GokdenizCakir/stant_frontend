@@ -1,14 +1,14 @@
 "use client";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { getLeaderboard } from "./_utils/requests";
 import Leaderboard from "./_components/leaderboard";
 
 const page = () => {
   const router = useRouter();
   const moneyRef = React.useRef();
   const [disabled, setDisabled] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,10 +26,13 @@ const page = () => {
           withCredentials: true,
         }
       );
+
+      setError(null);
       if (response.status === 201) {
         router.push("/");
       }
     } catch (err) {
+      setError(err?.response?.data?.error);
       setDisabled(false);
     }
   };
@@ -47,6 +50,14 @@ const page = () => {
       >
         <div className="absolute left-2 bottom-2 bg-neutral-800 w-full h-full -z-20" />
         <div className="money" ref={moneyRef}></div>
+        {error && (
+          <p
+            id="error"
+            className="text-red-500 text-center font-bold capitalize select-none"
+          >
+            {error}
+          </p>
+        )}
         <input
           className="block w-full bg-zinc-800/95 disabled:bg-zinc-800/70 text-stone-400 px-4 py-1.5 border-2 border-zinc-700 rounded-sm"
           type="text"
