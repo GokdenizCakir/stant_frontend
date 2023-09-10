@@ -32,6 +32,7 @@ const page = () => {
                     ? "bg-yellow-900"
                     : "bg-blue-950"
                 } py-1 px-2 text-md text-center text-slate-300 border-t border-b md:border border-slate-50`}
+                key={index}
               >
                 <div
                   className={`left-triangle ${
