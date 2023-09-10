@@ -1,14 +1,28 @@
 "use client";
 
+import Confetti from "react-confetti";
+import { Rain } from "react-rainfall";
 import { useEffect, useState } from "react";
-import { answerQuestion, getQuestion } from "../../_utils/requests";
 import { useRouter } from "next/navigation";
+import { useWindowSize } from "@/app/_utils/hooks";
+import { answerQuestion, getQuestion } from "../../_utils/requests";
 
 export default function Home({ params }) {
   const router = useRouter();
   const [question, setQuestion] = useState(null);
+  const [playerAnswer, setPlayerAnswer] = useState(null);
+  const [answer, setAnswer] = useState(null);
   const [timeLeft, setTimeLeft] = useState(30);
   const [disabled, setDisabled] = useState(false);
+
+  let intervalId;
+
+  const windowSize = useWindowSize();
+  const [size, setSize] = useState({ width: 0, height: 0 });
+  useEffect(() => {
+    setSize({ width: windowSize.width, height: windowSize.height });
+  }, [windowSize]);
+
   const rewards = [
     "500",
     "1.000",
@@ -35,11 +49,16 @@ export default function Home({ params }) {
 
   useEffect(() => {
     if (question) {
-      const intervalId = setInterval(() => {
+      intervalId = setInterval(() => {
         setTimeLeft((prevTimeLeft) => {
-          if (prevTimeLeft <= 0) {
+          if (playerAnswer) {
             clearInterval(intervalId);
-            setDisabled(true);
+            return prevTimeLeft;
+          }
+
+          if (prevTimeLeft < 0) {
+            clearInterval(intervalId);
+            handleAnswer("z");
             return 0;
           } else {
             return prevTimeLeft - 1;
@@ -49,30 +68,65 @@ export default function Home({ params }) {
 
       return () => clearInterval(intervalId);
     }
-  }, [question]);
+  }, [question, playerAnswer]);
+
+  const answerButtonColor = (iterAnswer) => {
+    let className = "";
+    if (!answer && !playerAnswer) {
+      className += "bg-blue-950";
+    } else if (!answer && playerAnswer === iterAnswer) {
+      className += "bg-[#B45309]";
+    } else if (!answer && playerAnswer !== iterAnswer) {
+      className += "bg-blue-950";
+    } else if (answer && playerAnswer !== iterAnswer && answer !== iterAnswer) {
+      className += "bg-blue-950";
+    } else if (answer && answer === iterAnswer) {
+      className += "bg-[#3F6212]";
+    } else if (
+      answer &&
+      playerAnswer === iterAnswer &&
+      playerAnswer !== answer
+    ) {
+      className += "bg-red-600";
+    }
+
+    return className;
+  };
 
   const handleAnswer = async (e) => {
+    setPlayerAnswer(e);
+    setDisabled(true);
     answerQuestion({ answer: e }).then((data) => {
-      console.log(data);
-      router.push("/soru/ilerle");
+      setAnswer(data?.answer);
+      setTimeout(() => {
+        router.push("/soru/ilerle");
+      }, 3000);
     });
   };
 
   return (
     <div className="flex flex-col justify-around items-center h-full">
       {!question && (
-        <div class="absolute top-0 left-0 flex flex-col justify-center items-center gap-4 w-screen h-screen bg-black/90 z-20">
-          <span class="loader"></span>
-          <p class="text-white text-xl font-semibold select-none animate-pulse">
+        <div className="absolute top-0 left-0 flex flex-col justify-center items-center gap-4 w-screen h-screen bg-black/90 z-20">
+          <span className="question-loader"></span>
+          <p className="text-white text-xl font-semibold select-none animate-pulse">
             Soru Yükleniyor...
           </p>
         </div>
       )}
+      {answer && playerAnswer === answer && (
+        <Confetti width={size.width} height={size.height} />
+      )}
+      {answer && playerAnswer !== answer && (
+        <div className="absolute w-screen h-screen">
+          <Rain />
+        </div>
+      )}
       <div className="self-end space-y-2 select-none">
-        <h1 className="px-8 py-1 bg-blue-950 text-slate-300 text-xl text-center border border-slate-50">
+        <h1 className="px-8 py-1 bg-blue-950 text-slate-300 text-xl text-center border border-r-0 border-slate-50">
           {rewards[params.order - 1]} TL
         </h1>
-        <h1 className="px-1 py-1 bg-blue-950 text-slate-300 text-xl border border-slate-50">
+        <h1 className="px-1 py-1 bg-blue-950 text-slate-300 text-xl border border-r-0 border-slate-50">
           <div className="flex gap-2 h-10 align-middle">
             <div className="flex justify-center items-center flex-1 h-full px-1 bg-sky-900 font-extrabold border border-slate-50 rounded-full cursor-pointer">
               50:50
@@ -105,50 +159,36 @@ export default function Home({ params }) {
           className="flex flex-col md:flex-row gap-3 md:gap-1.5 w-full mx-auto mt-4 md:mt-3 text-slate-300"
           id="answers"
         >
-          <li
-            onClick={() => handleAnswer("a")}
-            className="relative md:flex-1 group bg-blue-950 active:bg-[#0F1C3F] py-1 px-2 text-md text-center text-slate-300 border-t border-b md:border border-slate-50 cursor-pointer"
-          >
-            <div className="left-triangle group-active:bg-[#0F1C3F] bg-blue-950 md:hidden" />
-            <div className="left-triangle-border md:hidden" />
-            <div className="right-triangle group-active:bg-[#0F1C3F] bg-blue-950 md:hidden" />
-            <div className="right-triangle-border md:hidden" />
-            <span className="text-yellow-400 font-semibold">A. </span>
-            {question?.a}
-          </li>
-          <li
-            onClick={() => handleAnswer("b")}
-            className="relative md:flex-1 group bg-blue-950 active:bg-[#0F1C3F] py-1 px-2 text-md text-center text-slate-300 border-t border-b md:border border-slate-50 cursor-pointer"
-          >
-            <div className="left-triangle group-active:bg-[#0F1C3F] bg-blue-950 md:hidden" />
-            <div className="left-triangle-border md:hidden" />
-            <div className="right-triangle group-active:bg-[#0F1C3F] bg-blue-950 md:hidden" />
-            <div className="right-triangle-border md:hidden" />
-            <span className="text-yellow-400 font-semibold">B. </span>
-            {question?.b}
-          </li>
-          <li
-            onClick={() => handleAnswer("c")}
-            className="relative md:flex-1 group bg-blue-950 active:bg-[#0F1C3F] py-1 px-2 text-md text-center text-slate-300 border-t border-b md:border border-slate-50 cursor-pointer"
-          >
-            <div className="left-triangle group-active:bg-[#0F1C3F] bg-blue-950 md:hidden" />
-            <div className="left-triangle-border md:hidden" />
-            <div className="right-triangle group-active:bg-[#0F1C3F] bg-blue-950 md:hidden" />
-            <div className="right-triangle-border md:hidden" />
-            <span className="text-yellow-400 font-semibold">C. </span>
-            {question?.c}
-          </li>
-          <li
-            onClick={() => handleAnswer("d")}
-            className="relative md:flex-1 group bg-blue-950 active:bg-[#0F1C3F] py-1 px-2 text-md text-center text-slate-300 border-t border-b md:border border-slate-50 cursor-pointer"
-          >
-            <div className="left-triangle group-active:bg-[#0F1C3F] bg-blue-950 md:hidden" />
-            <div className="left-triangle-border md:hidden" />
-            <div className="right-triangle group-active:bg-[#0F1C3F] bg-blue-950 md:hidden" />
-            <div className="right-triangle-border md:hidden" />
-            <span className="text-yellow-400 font-semibold">D. </span>
-            {question?.d}
-          </li>
+          {["a", "b", "c", "d"].map((iterAnswer) => (
+            <li
+              onClick={() => {
+                if (!disabled) handleAnswer(iterAnswer);
+              }}
+              className={`relative md:flex-1 group ${answerButtonColor(
+                iterAnswer
+              )} ${
+                !answer && "active:bg-[#0F1C3F]"
+              } py-1 px-2 text-md text-center text-slate-300 border-t border-b md:border border-slate-50 cursor-pointer transition-colors duration-500`}
+              key={iterAnswer}
+            >
+              <div
+                className={`left-triangle ${answerButtonColor(iterAnswer)} ${
+                  !answer && "group-active:bg-[#0F1C3F]"
+                } md:hidden`}
+              />
+              <div className="left-triangle-border md:hidden" />
+              <div
+                className={`right-triangle ${answerButtonColor(iterAnswer)} ${
+                  !answer && "group-active:bg-[#0F1C3F]"
+                } md:hidden`}
+              />
+              <div className="right-triangle-border md:hidden" />
+              <span className="text-yellow-400 font-semibold">
+                {iterAnswer.toUpperCase()}.{" "}
+              </span>
+              {question?.[iterAnswer]}
+            </li>
+          ))}
         </ul>
       </div>
     </div>

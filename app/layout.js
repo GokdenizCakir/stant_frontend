@@ -1,3 +1,6 @@
+"use client";
+
+import TransitionComponent from "./_components/transition";
 import "./globals.css";
 import { Inter } from "next/font/google";
 
@@ -11,8 +14,8 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html className="h-full" lang="en">
-      <body className="bg-gradient-to-b h-screen overflow-hidden from-sky-950 to-slate-950 bg-fixed">
-        {children}
+      <body className="bg-gradient-to-b overflow-hidden from-sky-950 to-slate-950 bg-fixed">
+        <TransitionComponent>{children}</TransitionComponent>
       </body>
     </html>
   );

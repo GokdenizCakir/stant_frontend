@@ -34,7 +34,7 @@ export const answerQuestion = async (data) => {
         withCredentials: true,
       }
     );
-    return response.data.data;
+    return response.data;
   } catch (err) {
     console.log(err);
   }
