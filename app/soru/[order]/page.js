@@ -123,10 +123,10 @@ export default function Home({ params }) {
         </div>
       )}
       <div className="self-end space-y-2 select-none">
-        <h1 className="px-8 py-1 bg-blue-950 text-slate-300 text-xl text-center border border-slate-50">
+        <h1 className="px-8 py-1 bg-blue-950 text-slate-300 text-xl text-center border border-r-0 border-slate-50">
           {rewards[params.order - 1]} TL
         </h1>
-        <h1 className="px-1 py-1 bg-blue-950 text-slate-300 text-xl border border-slate-50">
+        <h1 className="px-1 py-1 bg-blue-950 text-slate-300 text-xl border border-r-0 border-slate-50">
           <div className="flex gap-2 h-10 align-middle">
             <div className="flex justify-center items-center flex-1 h-full px-1 bg-sky-900 font-extrabold border border-slate-50 rounded-full cursor-pointer">
               50:50
