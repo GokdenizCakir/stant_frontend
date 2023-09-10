@@ -1,5 +1,3 @@
-"use client";
-
 import TransitionComponent from "./_components/transition";
 import "./globals.css";
 import { Inter } from "next/font/google";

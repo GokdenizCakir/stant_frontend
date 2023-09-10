@@ -122,19 +122,9 @@ export default function Home({ params }) {
           <Rain />
         </div>
       )}
-      <div className="self-end space-y-2 select-none">
+      <div className="self-end select-none">
         <h1 className="px-8 py-1 bg-blue-950 text-slate-300 text-xl text-center border border-r-0 border-slate-50">
           {rewards[params.order - 1]} TL
-        </h1>
-        <h1 className="px-1 py-1 bg-blue-950 text-slate-300 text-xl border border-r-0 border-slate-50">
-          <div className="flex gap-2 h-10 align-middle">
-            <div className="flex justify-center items-center flex-1 h-full px-1 bg-sky-900 font-extrabold border border-slate-50 rounded-full cursor-pointer">
-              50:50
-            </div>
-            <div className="flex justify-center items-center flex-1 h-full px-1 bg-sky-900 font-extrabold border border-slate-50 rounded-full cursor-pointer">
-              x2
-            </div>
-          </div>
         </h1>
       </div>
       <div className="flex flex-col w-5/6 md:w-3/4 select-none">
