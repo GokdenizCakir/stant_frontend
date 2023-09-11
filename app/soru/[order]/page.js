@@ -98,9 +98,22 @@ export default function Home({ params }) {
     setDisabled(true);
     answerQuestion({ answer: e }).then((data) => {
       setAnswer(data?.answer);
-      setTimeout(() => {
-        router.push("/soru/ilerle");
-      }, 3000);
+
+      if (data?.answer === e) {
+        if (data?.winner) {
+          setTimeout(() => {
+            window.location.replace("/kazandin");
+          }, 3000);
+        } else {
+          setTimeout(() => {
+            router.push("/soru/ilerle");
+          }, 3000);
+        }
+      } else if (data?.answer !== e) {
+        setTimeout(() => {
+          window.location.replace("/kaybettin");
+        }, 3000);
+      }
     });
   };
 
