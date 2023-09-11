@@ -14,6 +14,11 @@ const page = () => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData);
+    if (!data.full_name || !data.phone) {
+      setError("Lütfen tüm alanları doldurunuz");
+      return;
+    }
+
     try {
       setDisabled(true);
       const response = await axios.post(
