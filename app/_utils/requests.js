@@ -2,9 +2,12 @@ import axios from "axios";
 
 export const getQuestion = async () => {
   try {
-    const response = await axios.get("http://localhost:8080/api/v1/questions", {
-      withCredentials: true,
-    });
+    const response = await axios.get(
+      "https://backend.egehan.dev/api/v1/questions",
+      {
+        withCredentials: true,
+      }
+    );
     return response.data;
   } catch (err) {
     console.log(err);
@@ -13,9 +16,12 @@ export const getQuestion = async () => {
 
 export const getLeaderboard = async () => {
   try {
-    const response = await axios.get("http://localhost:8080/api/v1/players", {
-      withCredentials: true,
-    });
+    const response = await axios.get(
+      "https://backend.egehan.dev/api/v1/players",
+      {
+        withCredentials: true,
+      }
+    );
     return response.data.data;
   } catch (err) {
     console.log(err);
@@ -25,7 +31,7 @@ export const getLeaderboard = async () => {
 export const answerQuestion = async (data) => {
   try {
     const response = await axios.post(
-      "http://localhost:8080/api/v1/questions/answer",
+      "https://backend.egehan.dev/api/v1/questions/answer",
       data,
       {
         headers: {
@@ -43,7 +49,7 @@ export const answerQuestion = async (data) => {
 export const login = async (data) => {
   try {
     const response = await axios.post(
-      "http://localhost:8080/api/v1/players",
+      "https://backend.egehan.dev/api/v1/players",
       data,
       {
         headers: {
