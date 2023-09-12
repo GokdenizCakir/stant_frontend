@@ -26,6 +26,7 @@ export default function Leaderboard() {
     if (isLeaderboardOpen) {
       leaderboard.current.classList.add("border-l-2");
     } else {
+      leaderboard.current.classList.add("border-l-2");
       timeoutId = setTimeout(() => {
         leaderboard.current.classList.remove("border-l-2");
       }, 1000);
@@ -59,13 +60,11 @@ export default function Leaderboard() {
       <div
         ref={leaderboard}
         className={`${
-          isLeaderboardOpen ? "w-3/4 md:w-1/4" : "w-0 border-l-2"
+          isLeaderboardOpen ? "w-3/4 md:w-1/4" : "w-0"
         } flex flex-col items-center gap-6 fixed top-0 right-0 h-full py-20 bg-[#072B44]/95 z-10 transition-[width] duration-1000 delay-0 overflow-hidden border-white/60`}
       >
         <h1
-          className={`text-3xl text-center text-neutral-300 font-bold ${
-            isLeaderboardOpen ? "break-words" : "whitespace-nowrap"
-          } select-none`}
+          className={`text-3xl text-center text-neutral-300 font-bold whitespace-nowrap select-none`}
         >
           Lider Tablosu
         </h1>
