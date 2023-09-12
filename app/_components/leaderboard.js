@@ -24,23 +24,11 @@ export default function Leaderboard() {
     }
 
     if (isLeaderboardOpen) {
-      leaderboard.current.classList.remove("w-0");
-      leaderboard.current.classList.add("w-3/4");
-      leaderboard.current.classList.add("md:w-1/4");
       leaderboard.current.classList.add("border-l-2");
-      leaderboardButton.current.classList.remove("right-0");
-      leaderboardButton.current.classList.add("right-3/4");
-      leaderboardButton.current.classList.add("md:right-1/4");
     } else {
-      leaderboard.current.classList.remove("w-3/4");
-      leaderboard.current.classList.remove("md:w-1/4");
-      leaderboard.current.classList.add("w-0");
       timeoutId = setTimeout(() => {
         leaderboard.current.classList.remove("border-l-2");
       }, 1000);
-      leaderboardButton.current.classList.remove("right-3/4");
-      leaderboardButton.current.classList.remove("md:right-1/4");
-      leaderboardButton.current.classList.add("right-0");
     }
   }, [isLeaderboardOpen]);
 
@@ -48,7 +36,9 @@ export default function Leaderboard() {
     <>
       <div
         ref={leaderboardButton}
-        className="flex fixed top-1/3 right-0 h-16 w-10 bg-zinc-100 rounded-l-md border-2 border-black border-r-0 p-1 transition-[right] duration-1000 delay-0 z-20 select-none cursor-pointer"
+        className={`${
+          isLeaderboardOpen ? "right-3/4 md:right-1/4" : "right-0"
+        } flex fixed top-1/3 right-0 h-16 w-10 bg-zinc-100 rounded-l-md border-2 border-black border-r-0 p-1 transition-[right] duration-1000 delay-0 z-20 select-none cursor-pointer`}
         onClick={(event) => {
           setIsLeaderboardOpen(!isLeaderboardOpen);
           timeoutId && clearTimeout(timeoutId);
@@ -68,12 +58,22 @@ export default function Leaderboard() {
 
       <div
         ref={leaderboard}
-        className="flex flex-col items-center gap-6 fixed top-0 right-0 w-0 h-full py-20 bg-[#072B44]/95 z-10 transition-[width] duration-1000 delay-0 overflow-hidden whitespace-nowrap border-white/60"
+        className={`${
+          isLeaderboardOpen ? "w-3/4 md:w-1/4" : "w-0 border-l-2"
+        } flex flex-col items-center gap-6 fixed top-0 right-0 h-full py-20 bg-[#072B44]/95 z-10 transition-[width] duration-1000 delay-0 overflow-hidden border-white/60`}
       >
-        <h1 className="text-3xl text-neutral-300 font-bold select-none">
+        <h1
+          className={`text-3xl text-center text-neutral-300 font-bold ${
+            isLeaderboardOpen ? "break-words" : "whitespace-nowrap"
+          } select-none`}
+        >
           Lider Tablosu
         </h1>
-        <ul className="text-xl text-neutral-300 font-semibold select-none">
+        <ul
+          className={`w-full px-4 text-xl text-neutral-300 font-semibold ${
+            isLeaderboardOpen ? "break-words" : "whitespace-nowrap"
+          } select-none`}
+        >
           {leaderboardData?.length === 0 && <li>Yükleniyor...</li>}
           {leaderboardData?.length !== 0 &&
             leaderboardData?.map((data, index) => {

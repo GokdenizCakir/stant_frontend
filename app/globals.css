@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+.full-height {
+  height: 100vh;
+  height: 100svh;
+}
+
 .money {
   position: absolute;
   top: -20%;

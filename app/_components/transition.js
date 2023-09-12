@@ -26,7 +26,7 @@ export default function TransitionComponent({ children }) {
         initial={{ x: -200, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
         exit={{ x: 200, opacity: 0 }}
-        className="h-screen"
+        className="full-height"
       >
         {children}
       </motion.div>

@@ -25,7 +25,7 @@ export function middleware(request) {
 
   if (
     request.nextUrl.pathname.startsWith("/soru/") ||
-    request.nextUrl.pathname === "/soru/ilerle"
+    request.nextUrl.pathname.startsWith("/soru/ilerle/")
   ) {
     const playerHasWon = hasWon(jwt);
     const playerHasLost = hasLost(jwt);
@@ -40,12 +40,21 @@ export function middleware(request) {
 
   if (
     request.nextUrl.pathname.startsWith("/soru/") &&
-    request.nextUrl.pathname !== "/soru/ilerle"
+    !request.nextUrl.pathname.startsWith("/soru/ilerle/")
   ) {
     const questionOrder = Number(request.nextUrl.pathname.split("/")[2]);
     const currentQuestionIndex = getCurrentQuestionIndex(jwt);
     if (questionOrder !== currentQuestionIndex + 1) {
       redirectURL.pathname = `/soru/${currentQuestionIndex + 1}`;
+      return NextResponse.redirect(redirectURL);
+    }
+  }
+
+  if (request.nextUrl.pathname.startsWith("/soru/ilerle/")) {
+    const questionOrder = Number(request.nextUrl.pathname.split("/")[3]);
+    const currentQuestionIndex = getCurrentQuestionIndex(jwt);
+    if (questionOrder !== currentQuestionIndex + 1) {
+      redirectURL.pathname = `/soru/ilerle/${currentQuestionIndex + 1}`;
       return NextResponse.redirect(redirectURL);
     }
   }

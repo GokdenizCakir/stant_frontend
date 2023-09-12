@@ -106,7 +106,7 @@ export default function Home({ params }) {
           }, 3000);
         } else {
           setTimeout(() => {
-            router.push("/soru/ilerle");
+            router.push(`/soru/ilerle/${Number(params.order) + 1}`);
           }, 3000);
         }
       } else if (data?.answer !== e) {
