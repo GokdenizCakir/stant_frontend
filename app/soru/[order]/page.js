@@ -100,6 +100,7 @@ export default function Home({ params }) {
       setAnswer(data?.answer);
 
       if (data?.answer === e) {
+        window?.navigator?.vibrate?.(100);
         if (data?.winner) {
           setTimeout(() => {
             window.location.replace("/kazandin");
@@ -110,6 +111,7 @@ export default function Home({ params }) {
           }, 3000);
         }
       } else if (data?.answer !== e) {
+        window?.navigator?.vibrate?.(400);
         setTimeout(() => {
           window.location.replace("/kaybettin");
         }, 3000);
@@ -135,9 +137,16 @@ export default function Home({ params }) {
           <Rain />
         </div>
       )}
-      <div className="self-end select-none">
+      <div className="self-end space-y-2 select-none">
         <h1 className="px-8 py-1 bg-blue-950 text-slate-300 text-xl text-center border border-r-0 border-slate-50">
           {rewards[params.order - 1]} TL
+        </h1>
+        <h1 class="px-4 py-1 bg-blue-950 text-slate-300 text-xl border border-r-0 border-slate-50">
+          <div class="flex h-10 align-middle">
+            <div class="flex justify-center items-center flex-1 h-full px-1 bg-sky-900 active:bg-sky-900/60 font-bold border border-slate-50 rounded-full cursor-pointer">
+              Pes Et
+            </div>
+          </div>
         </h1>
       </div>
       <div className="flex flex-col w-5/6 md:w-3/4 select-none">
