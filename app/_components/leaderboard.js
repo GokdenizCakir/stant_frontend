@@ -2,18 +2,32 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { getLeaderboard } from "../_utils/requests";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 export default function Leaderboard() {
+  const [page, setPage] = useState(1);
   const [leaderboardData, setLeaderboardData] = useState([]);
+  const [hasMore, setHasMore] = useState(true);
   const [isLeaderboardOpen, setIsLeaderboardOpen] = useState(false);
   const isFirstRender = useRef(true);
   const leaderboard = useRef();
   const leaderboardButton = useRef();
   let timeoutId;
 
+  const getMoreLeaderboard = async () => {
+    const data = await getLeaderboard(page);
+    if (!data || data.length === 0) {
+      setHasMore(false);
+    } else {
+      setLeaderboardData([...leaderboardData, ...data]);
+      setPage(page + 1);
+    }
+  };
+
   useEffect(() => {
-    getLeaderboard().then((data) => {
+    getLeaderboard(1).then((data) => {
       setLeaderboardData(data);
+      setPage(2);
     });
   }, []);
 
@@ -25,6 +39,10 @@ export default function Leaderboard() {
 
     if (isLeaderboardOpen) {
       leaderboard.current.classList.add("border-l-2");
+      leaderboard.current.classList.add("md:border-l-2");
+      timeoutId = setTimeout(() => {
+        leaderboard.current.classList.remove("border-l-2");
+      }, 1000);
     } else {
       leaderboard.current.classList.add("border-l-2");
       timeoutId = setTimeout(() => {
@@ -38,8 +56,10 @@ export default function Leaderboard() {
       <div
         ref={leaderboardButton}
         className={`${
-          isLeaderboardOpen ? "right-3/4 md:right-1/4" : "right-0"
-        } flex fixed top-1/3 right-0 h-16 w-10 bg-zinc-100 rounded-l-md border-2 border-black border-r-0 p-1 transition-[right] duration-1000 delay-0 z-20 select-none cursor-pointer`}
+          isLeaderboardOpen
+            ? "right-full md:right-1/4 -scale-x-100 md:scale-x-100 translate-x-full md:translate-x-0"
+            : "right-0"
+        } flex fixed top-16 right-0 h-16 w-10 bg-zinc-100 rounded-l-md border-2 border-black border-r-0 p-1 transition-all duration-1000 delay-0 z-30 select-none cursor-pointer`}
         onClick={(event) => {
           setIsLeaderboardOpen(!isLeaderboardOpen);
           timeoutId && clearTimeout(timeoutId);
@@ -59,9 +79,10 @@ export default function Leaderboard() {
 
       <div
         ref={leaderboard}
+        id="scrollableDiv"
         className={`${
-          isLeaderboardOpen ? "w-3/4 md:w-1/4" : "w-0"
-        } flex flex-col items-center gap-6 fixed top-0 right-0 h-full py-20 bg-[#072B44]/95 z-10 transition-[width] duration-1000 delay-0 overflow-hidden border-white/60`}
+          isLeaderboardOpen ? "w-full md:w-1/4" : "w-0"
+        } flex flex-col items-center gap-6 fixed top-0 right-0 h-full py-20 bg-[#072B44] md:bg-[#072B44]/95 z-20 transition-[width] duration-1000 delay-0 overflow-x-hidden overflow-y-scroll border-white/60`}
       >
         <h1
           className={`text-3xl text-center text-neutral-300 font-bold whitespace-nowrap select-none`}
@@ -69,13 +90,25 @@ export default function Leaderboard() {
           Lider Tablosu
         </h1>
         <ul
-          className={`w-full px-4 text-xl text-neutral-300 font-semibold ${
+          className={`w-full px-11 md:px-4 text-xl text-neutral-300 font-semibold ${
             isLeaderboardOpen ? "break-words" : "whitespace-nowrap"
           } select-none`}
+          style={{ minHeight: "101%" }}
         >
-          {leaderboardData?.length === 0 && <li>Yükleniyor...</li>}
-          {leaderboardData?.length !== 0 &&
-            leaderboardData?.map((data, index) => {
+          <InfiniteScroll
+            dataLength={leaderboardData?.length}
+            next={getMoreLeaderboard}
+            hasMore={hasMore}
+            loader={<li className="text-gray-400 mb-20">Yükleniyor...</li>}
+            endMessage={
+              <li className="text-gray-400 mb-20">
+                Gösterilecek daha fazla kullanıcı kalmadı.
+              </li>
+            }
+            scrollableTarget="scrollableDiv"
+            style={{ overflowX: "hidden" }}
+          >
+            {leaderboardData?.map((data, index) => {
               return (
                 <li key={index}>
                   <span className="text-gray-400">{index + 1}.</span>{" "}
@@ -84,6 +117,7 @@ export default function Leaderboard() {
                 </li>
               );
             })}
+          </InfiniteScroll>
         </ul>
       </div>
     </>

@@ -14,10 +14,10 @@ export const getQuestion = async () => {
   }
 };
 
-export const getLeaderboard = async () => {
+export const getLeaderboard = async (page) => {
   try {
     const response = await axios.get(
-      "https://backend.egehan.dev/api/v1/players",
+      `https://backend.egehan.dev/api/v1/players/${page}`,
       {
         withCredentials: true,
       }
