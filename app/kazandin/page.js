@@ -15,7 +15,7 @@ export default function YouWinPage() {
     <div className="flex flex-col justify-center items-center gap-8 h-full">
       <Leaderboard />
       <Confetti width={size.width} height={size.height} />
-      <h1 className="meme-text text-4xl text-white select-none">
+      <h1 className="meme-text text-4xl text-white text-center select-none">
         Hadi iyisin gofretçi &#129299;
       </h1>
       <img src="/images/winner.gif" />

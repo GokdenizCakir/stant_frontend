@@ -11,7 +11,7 @@ export default function YouLosePage() {
       <div className="absolute w-screen h-screen">
         <Rain />
       </div>
-      <h1 className="meme-text text-4xl text-white select-none">
+      <h1 className="meme-text text-4xl text-white text-center select-none">
         Kaybettin gofretçi 😥
       </h1>
       <img src="/images/loser.gif" />
