@@ -58,7 +58,7 @@ export default function Home({ params }) {
 
           if (prevTimeLeft < 0) {
             clearInterval(intervalId);
-            handleAnswer("z");
+            handleAnswer("z", false);
             return 0;
           } else {
             return prevTimeLeft - 1;
@@ -93,12 +93,11 @@ export default function Home({ params }) {
     return className;
   };
 
-  const handleAnswer = async (e) => {
+  const handleAnswer = async (e, hasGaveUp) => {
     setPlayerAnswer(e);
     setDisabled(true);
-    answerQuestion({ answer: e }).then((data) => {
+    answerQuestion({ answer: e, hasGaveUp: hasGaveUp }).then((data) => {
       setAnswer(data?.answer);
-
       if (data?.answer === e) {
         window?.navigator?.vibrate?.(100);
         if (data?.winner) {
@@ -113,7 +112,11 @@ export default function Home({ params }) {
       } else if (data?.answer !== e) {
         window?.navigator?.vibrate?.(400);
         setTimeout(() => {
-          window.location.replace("/kaybettin");
+          if (hasGaveUp) {
+            window.location.replace("/pes-ettin");
+          } else {
+            window.location.replace("/kaybettin");
+          }
         }, 3000);
       }
     });
@@ -143,7 +146,14 @@ export default function Home({ params }) {
         </h1>
         <h1 class="px-4 py-1 bg-blue-950 text-slate-300 text-xl border border-r-0 border-slate-50">
           <div class="flex h-10 align-middle">
-            <div class="flex justify-center items-center flex-1 h-full px-1 bg-sky-900 active:bg-sky-900/60 font-bold border border-slate-50 rounded-full cursor-pointer">
+            <div
+              class={`flex justify-center items-center flex-1 h-full px-1 ${
+                !disabled ? "bg-sky-900" : "bg-sky-900/60"
+              } active:bg-sky-900/60 font-bold border border-slate-50 rounded-full cursor-pointer`}
+              onClick={() => {
+                if (!disabled) handleAnswer("z", true);
+              }}
+            >
               Pes Et
             </div>
           </div>
@@ -174,7 +184,7 @@ export default function Home({ params }) {
           {["a", "b", "c", "d"].map((iterAnswer) => (
             <li
               onClick={() => {
-                if (!disabled) handleAnswer(iterAnswer);
+                if (!disabled) handleAnswer(iterAnswer, false);
               }}
               className={`relative md:flex-1 group ${answerButtonColor(
                 iterAnswer
