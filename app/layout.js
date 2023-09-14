@@ -11,7 +11,10 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="tr">
+      <head>
+        <meta property="og:image" content="/images/og.png" />
+      </head>
       <body className="bg-gradient-to-b overflow-hidden from-sky-950 to-slate-950 bg-fixed">
         <TransitionComponent>{children}</TransitionComponent>
       </body>
