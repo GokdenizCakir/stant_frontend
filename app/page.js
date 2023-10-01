@@ -22,7 +22,7 @@ const page = () => {
     try {
       setDisabled(true);
       const response = await axios.post(
-        "https://backend.egehan.dev/api/v1/players",
+        "https://backend.skyl.app/api/v1/players",
         data,
         {
           headers: {

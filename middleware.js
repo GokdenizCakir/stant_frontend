@@ -90,5 +90,12 @@ export function middleware(request) {
 }
 
 export const config = {
-  matcher: ["/", "/soru/:path*", "/kazandin", "/kaybettin", "/pes-ettin"],
+  matcher: [
+    "/",
+    "/soru/:path*",
+    "/kazandin",
+    "/kaybettin",
+    "/pes-ettin",
+    "/hacker-misin-sen",
+  ],
 };

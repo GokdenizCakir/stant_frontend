@@ -3,7 +3,7 @@ import axios from "axios";
 export const getQuestion = async () => {
   try {
     const response = await axios.get(
-      "https://backend.egehan.dev/api/v1/questions",
+      "https://backend.skyl.app/api/v1/questions",
       {
         withCredentials: true,
       }
@@ -17,7 +17,7 @@ export const getQuestion = async () => {
 export const getLeaderboard = async (page) => {
   try {
     const response = await axios.get(
-      `https://backend.egehan.dev/api/v1/players/${page}`,
+      `https://backend.skyl.app/api/v1/players/${page}`,
       {
         withCredentials: true,
       }
@@ -31,7 +31,7 @@ export const getLeaderboard = async (page) => {
 export const answerQuestion = async (data) => {
   try {
     const response = await axios.post(
-      "https://backend.egehan.dev/api/v1/questions/answer",
+      "https://backend.skyl.app/api/v1/questions/answer",
       data,
       {
         headers: {
@@ -49,7 +49,7 @@ export const answerQuestion = async (data) => {
 export const login = async (data) => {
   try {
     const response = await axios.post(
-      "https://backend.egehan.dev/api/v1/players",
+      "https://backend.skyl.app/api/v1/players",
       data,
       {
         headers: {
