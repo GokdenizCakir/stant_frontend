@@ -4,7 +4,7 @@ import React from "react";
 import { Rain } from "react-rainfall";
 import Leaderboard from "../_components/leaderboard";
 
-export default function YouLosePage() {
+export default function YouAreHackerPage() {
   return (
     <div className="flex flex-col justify-center items-center relative gap-8 h-full">
       <Leaderboard />
@@ -12,9 +12,9 @@ export default function YouLosePage() {
         <Rain />
       </div>
       <h1 className="meme-text text-4xl text-white text-center select-none">
-        Kaybettin 😥
+        Bakıyorum kurnazlık peşindesin. 🤣
       </h1>
-      <img src="/images/loser.gif" />
+      <img src="/images/laugh.gif" />
     </div>
   );
 }

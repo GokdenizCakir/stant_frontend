@@ -5,7 +5,7 @@ import Confetti from "react-confetti";
 import { useWindowSize } from "../_utils/hooks";
 import Leaderboard from "../_components/leaderboard";
 
-export default function YouWinPage() {
+export default function YouGaveUpPage() {
   const windowSize = useWindowSize();
   const [size, setSize] = useState({ width: 0, height: 0 });
   useEffect(() => {
@@ -16,7 +16,7 @@ export default function YouWinPage() {
       <Leaderboard />
       <Confetti width={size.width} height={size.height} />
       <h1 className="meme-text text-4xl text-white text-center select-none">
-        Hadi iyisin &#129299;
+        Taktiksel bir geri çekilmeydi &#129299;
       </h1>
       <img src="/images/winner.gif" />
     </div>

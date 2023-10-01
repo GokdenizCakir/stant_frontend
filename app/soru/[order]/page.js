@@ -35,7 +35,7 @@ export default function Home({ params }) {
     "60.000",
     "125.000",
     "250.000",
-    "Gofret",
+    "1.000.000",
   ];
   useEffect(() => {
     getQuestion().then((data) => {
@@ -58,7 +58,7 @@ export default function Home({ params }) {
 
           if (prevTimeLeft < 0) {
             clearInterval(intervalId);
-            handleAnswer("z");
+            handleAnswer("z", false);
             return 0;
           } else {
             return prevTimeLeft - 1;
@@ -93,14 +93,32 @@ export default function Home({ params }) {
     return className;
   };
 
-  const handleAnswer = async (e) => {
+  const handleAnswer = async (e, hasGaveUp) => {
     setPlayerAnswer(e);
     setDisabled(true);
-    answerQuestion({ answer: e }).then((data) => {
+    answerQuestion({ answer: e, hasGaveUp: hasGaveUp }).then((data) => {
       setAnswer(data?.answer);
-      setTimeout(() => {
-        router.push("/soru/ilerle");
-      }, 3000);
+      if (data?.answer === e) {
+        window?.navigator?.vibrate?.(100);
+        if (data?.winner) {
+          setTimeout(() => {
+            window.location.replace("/kazandin");
+          }, 3000);
+        } else {
+          setTimeout(() => {
+            router.push(`/soru/ilerle/${Number(params.order) + 1}`);
+          }, 3000);
+        }
+      } else if (data?.answer !== e) {
+        window?.navigator?.vibrate?.(400);
+        setTimeout(() => {
+          if (hasGaveUp) {
+            window.location.replace("/pes-ettin");
+          } else {
+            window.location.replace("/kaybettin");
+          }
+        }, 3000);
+      }
     });
   };
 
@@ -122,9 +140,23 @@ export default function Home({ params }) {
           <Rain />
         </div>
       )}
-      <div className="self-end select-none">
+      <div className="self-end space-y-2 select-none">
         <h1 className="px-8 py-1 bg-blue-950 text-slate-300 text-xl text-center border border-r-0 border-slate-50">
           {rewards[params.order - 1]} TL
+        </h1>
+        <h1 class="px-4 py-1 bg-blue-950 text-slate-300 text-xl border border-r-0 border-slate-50">
+          <div class="flex h-10 align-middle">
+            <div
+              class={`flex justify-center items-center flex-1 h-full px-1 ${
+                !disabled ? "bg-sky-900" : "bg-sky-900/60"
+              } active:bg-sky-900/60 font-bold border border-slate-50 rounded-full cursor-pointer`}
+              onClick={() => {
+                if (!disabled) handleAnswer("z", true);
+              }}
+            >
+              Pes Et
+            </div>
+          </div>
         </h1>
       </div>
       <div className="flex flex-col w-5/6 md:w-3/4 select-none">
@@ -152,7 +184,7 @@ export default function Home({ params }) {
           {["a", "b", "c", "d"].map((iterAnswer) => (
             <li
               onClick={() => {
-                if (!disabled) handleAnswer(iterAnswer);
+                if (!disabled) handleAnswer(iterAnswer, false);
               }}
               className={`relative md:flex-1 group ${answerButtonColor(
                 iterAnswer

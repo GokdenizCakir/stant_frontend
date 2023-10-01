@@ -2,6 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  scrollbar-width: auto;
+  scrollbar-color: #184d73 #0f3d5e;
+}
+
+*::-webkit-scrollbar {
+  width: 12px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #0f3d5e;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #184d73;
+  border-radius: 0px;
+  border: 3px solid #0f3d5e;
+}
+
+.full-height {
+  height: 100vh;
+  height: 100svh;
+}
+
 .money {
   position: absolute;
   top: -20%;

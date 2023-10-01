@@ -19,27 +19,26 @@ export const getCurrentQuestionIndex = (token) => {
   return currentQuestionIndex;
 };
 
-export const hasLost = (token) => {
+export const getPlayerStatus = (token) => {
   const base64 = token.split(".")[1].replace("-", "+").replace("_", "/");
   const tokenData = JSON.parse(Buffer.from(base64, "base64"));
+
+  if (tokenData.HasGaveUp) {
+    return "hasGaveUp";
+  }
+
   for (const [questionIndex, questionAnswer] of tokenData.Questions) {
     if (questionIndex !== -1 && questionAnswer === 0) {
-      return true;
+      return "hasLost";
     }
   }
 
-  return false;
-};
-
-export const hasWon = (token) => {
-  const base64 = token.split(".")[1].replace("-", "+").replace("_", "/");
-  const tokenData = JSON.parse(Buffer.from(base64, "base64"));
   if (
     tokenData.Questions[tokenData.Questions.length - 1][0] !== -1 &&
     tokenData.Questions[tokenData.Questions.length - 1][1] === 1
   ) {
-    return true;
+    return "hasWon";
   }
 
-  return false;
+  return "playing";
 };

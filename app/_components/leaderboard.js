@@ -2,18 +2,32 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { getLeaderboard } from "../_utils/requests";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 export default function Leaderboard() {
+  const [page, setPage] = useState(1);
   const [leaderboardData, setLeaderboardData] = useState([]);
+  const [hasMore, setHasMore] = useState(true);
   const [isLeaderboardOpen, setIsLeaderboardOpen] = useState(false);
   const isFirstRender = useRef(true);
   const leaderboard = useRef();
   const leaderboardButton = useRef();
   let timeoutId;
 
+  const getMoreLeaderboard = async () => {
+    const data = await getLeaderboard(page);
+    if (!data || data.length === 0) {
+      setHasMore(false);
+    } else {
+      setLeaderboardData([...leaderboardData, ...data]);
+      setPage(page + 1);
+    }
+  };
+
   useEffect(() => {
-    getLeaderboard().then((data) => {
+    getLeaderboard(1).then((data) => {
       setLeaderboardData(data);
+      setPage(2);
     });
   }, []);
 
@@ -24,23 +38,16 @@ export default function Leaderboard() {
     }
 
     if (isLeaderboardOpen) {
-      leaderboard.current.classList.remove("w-0");
-      leaderboard.current.classList.add("w-3/4");
-      leaderboard.current.classList.add("md:w-1/4");
       leaderboard.current.classList.add("border-l-2");
-      leaderboardButton.current.classList.remove("right-0");
-      leaderboardButton.current.classList.add("right-3/4");
-      leaderboardButton.current.classList.add("md:right-1/4");
-    } else {
-      leaderboard.current.classList.remove("w-3/4");
-      leaderboard.current.classList.remove("md:w-1/4");
-      leaderboard.current.classList.add("w-0");
+      leaderboard.current.classList.add("md:border-l-2");
       timeoutId = setTimeout(() => {
         leaderboard.current.classList.remove("border-l-2");
       }, 1000);
-      leaderboardButton.current.classList.remove("right-3/4");
-      leaderboardButton.current.classList.remove("md:right-1/4");
-      leaderboardButton.current.classList.add("right-0");
+    } else {
+      leaderboard.current.classList.add("border-l-2");
+      timeoutId = setTimeout(() => {
+        leaderboard.current.classList.remove("border-l-2");
+      }, 1000);
     }
   }, [isLeaderboardOpen]);
 
@@ -48,7 +55,11 @@ export default function Leaderboard() {
     <>
       <div
         ref={leaderboardButton}
-        className="flex fixed top-1/3 right-0 h-16 w-10 bg-zinc-100 rounded-l-md border-2 border-black border-r-0 p-1 transition-[right] duration-1000 delay-0 z-20 select-none cursor-pointer"
+        className={`${
+          isLeaderboardOpen
+            ? "right-full md:right-1/4 -scale-x-100 md:scale-x-100 translate-x-full md:translate-x-0"
+            : "right-0"
+        } flex fixed top-16 right-0 h-16 w-10 bg-zinc-100 rounded-l-md border-2 border-black border-r-0 p-1 transition-all duration-1000 delay-0 z-30 select-none cursor-pointer`}
         onClick={(event) => {
           setIsLeaderboardOpen(!isLeaderboardOpen);
           timeoutId && clearTimeout(timeoutId);
@@ -68,15 +79,43 @@ export default function Leaderboard() {
 
       <div
         ref={leaderboard}
-        className="flex flex-col items-center gap-6 fixed top-0 right-0 w-0 h-full py-20 bg-[#072B44]/95 z-10 transition-[width] duration-1000 delay-0 overflow-hidden whitespace-nowrap border-white/60"
+        id="scrollableDiv"
+        className={`${
+          isLeaderboardOpen ? "w-full md:w-1/4" : "w-0"
+        } flex flex-col items-center gap-6 fixed top-0 right-0 h-full py-20 bg-[#072B44] md:bg-[#072B44]/95 z-20 transition-[width] duration-1000 delay-0 overflow-x-hidden overflow-y-scroll border-white/60`}
       >
-        <h1 className="text-3xl text-neutral-300 font-bold select-none">
-          Lider Tablosu
-        </h1>
-        <ul className="text-xl text-neutral-300 font-semibold select-none">
-          {leaderboardData?.length === 0 && <li>Yükleniyor...</li>}
-          {leaderboardData?.length !== 0 &&
-            leaderboardData?.map((data, index) => {
+        <div className="flex gap-4 items-center">
+          <h1
+            className={`text-3xl text-center text-neutral-300 font-bold whitespace-nowrap select-none`}
+          >
+            Lider Tablosu
+          </h1>
+          <div className="fill-neutral-300 w-10">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
+              <path d="M80-80v-60h81q-59-72-90-159T40-480q0-94 31-181t90-159H80v-60h200v200h-60v-116q-58 66-89 147t-31 169q0 88 31 169t89 147v-116h60v200H80Zm578-47q-23 8-46.5 7.5T566-131L304-253l18-40q10-20 28-32.5t40-14.5l68-5-112-307q-6-16 1-30.5t23-20.5q16-6 30.5 1t20.5 23l148 407-100 7 131 61q7 3 15 3.5t15-1.5l157-57q31-11 45-41.5t3-61.5l-55-150q-6-16 1-30.5t23-20.5q16-6 30.5 1t20.5 23l55 150q23 63-4.5 122.5T815-184l-157 57Zm-90-265-54-151q-6-16 1-30.5t23-20.5q16-6 30.5 1t20.5 23l55 150-76 28Zm113-41-41-113q-6-16 1-30.5t23-20.5q16-6 30.5 1t20.5 23l41 112-75 28Zm8 88Z" />
+            </svg>
+          </div>
+        </div>
+        <ul
+          className={`w-full px-11 md:px-4 text-xl text-neutral-300 font-semibold ${
+            isLeaderboardOpen ? "break-words" : "whitespace-nowrap"
+          } select-none`}
+          style={{ minHeight: "101%" }}
+        >
+          <InfiniteScroll
+            dataLength={leaderboardData?.length}
+            next={getMoreLeaderboard}
+            hasMore={hasMore}
+            loader={<li className="text-gray-400 mb-20">Yükleniyor...</li>}
+            endMessage={
+              <li className="text-gray-400 mb-20">
+                Gösterilecek daha fazla kullanıcı kalmadı.
+              </li>
+            }
+            scrollableTarget="scrollableDiv"
+            style={{ overflowX: "hidden" }}
+          >
+            {leaderboardData?.map((data, index) => {
               return (
                 <li key={index}>
                   <span className="text-gray-400">{index + 1}.</span>{" "}
@@ -85,6 +124,7 @@ export default function Leaderboard() {
                 </li>
               );
             })}
+          </InfiniteScroll>
         </ul>
       </div>
     </>
