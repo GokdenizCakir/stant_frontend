@@ -35,7 +35,7 @@ export default function Home({ params }) {
     "60.000",
     "125.000",
     "250.000",
-    "Gofret",
+    "1.000.000",
   ];
   useEffect(() => {
     getQuestion().then((data) => {

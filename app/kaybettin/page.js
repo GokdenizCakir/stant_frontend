@@ -12,7 +12,7 @@ export default function YouLosePage() {
         <Rain />
       </div>
       <h1 className="meme-text text-4xl text-white text-center select-none">
-        Kaybettin gofretçi 😥
+        Kaybettin 😥
       </h1>
       <img src="/images/loser.gif" />
     </div>

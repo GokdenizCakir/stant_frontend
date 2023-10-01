@@ -16,7 +16,7 @@ export default function YouWinPage() {
       <Leaderboard />
       <Confetti width={size.width} height={size.height} />
       <h1 className="meme-text text-4xl text-white text-center select-none">
-        Hadi iyisin gofretçi &#129299;
+        Hadi iyisin &#129299;
       </h1>
       <img src="/images/winner.gif" />
     </div>
